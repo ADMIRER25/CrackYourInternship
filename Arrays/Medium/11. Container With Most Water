@@ -1,0 +1,29 @@
+T.C:O(N)
+S.C:O(1)
+---------------------------------------
+class Solution {
+public:
+    int maxArea(vector<int>& height) 
+    {
+        int n = height.size();
+        int left = 0;
+        int right = n-1;
+
+        int max_area = 0;
+        while(left < right)
+        {
+            int length = right - left;
+            int breadth = min(height[left],height[right]);
+            max_area = max(max_area,length*breadth);
+
+            if(height[left] < height[right]) left++;
+            else if(height[left] > height[right]) right--;
+            else
+            {
+                if(height[left+1] >= height[right-1]) left++;
+                else right--;
+            }
+        }
+        return max_area;
+    }
+};
