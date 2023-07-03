@@ -1,0 +1,92 @@
+T.C:O(M*N)
+S.C:O(1)
+-------------------------------------------------------------------------------
+
+class Solution {
+public:
+    vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        int n=matrix.size();
+        int m=matrix[0].size();
+        int left=0,right=m-1,bottom=n-1,top=0;
+        int direction=1;
+        vector<int> v;
+        while(left<=right && top<=bottom)
+        {
+            if(direction==1)
+            {
+                for(int i=left;i<=right;i++) v.push_back(matrix[top][i]);
+                direction=2;
+                top++;
+            }
+            
+            else if(direction==2)
+            {
+                for(int i=top;i<=bottom;i++) v.push_back(matrix[i][right]);
+                direction=3;
+                right--;
+            }
+            
+            else if(direction==3)
+            {
+                for(int i=right;i>=left;i--) v.push_back(matrix[bottom][i]);
+                direction=4;
+                bottom--;
+            }
+            
+            else if(direction==4)
+            {
+                for(int i=bottom;i>=top;i--) v.push_back(matrix[i][left]);
+                direction=1;
+                left++;
+            }
+        }
+        return v;
+        
+    }
+};
+---------------------------------------------------------------------------------------------
+class Solution {
+
+public:
+    vector<int> spiralOrder(vector<vector<int>>& mat) 
+    {
+        int r = mat.size(),c = mat[0].size();
+        int sr = 0,sc = 0;
+
+        vector<int>ans;
+
+       while(sr < r && sc < c)
+       {
+            //left to right 
+            for(int i = sc; i < c; i++)
+            {
+                ans.push_back(mat[sr][i]);
+            }
+            sr++;
+
+            //up to down 
+            for(int i = sr; i < r; i++)
+            {
+                ans.push_back(mat[i][c-1]);
+            }
+            c--;
+
+            if(sr >= r || sc >= c) break;
+
+            //right to left 
+            for(int i = c - 1; i >= sc; i--)
+            {
+                ans.push_back(mat[r-1][i]);
+            }
+            r--;
+            
+            //down to up 
+            for(int i = r-1; i >= sr; i--)
+            {
+                ans.push_back(mat[i][sc]);
+            }
+            sc++;
+       }
+       return ans ;
+    }
+};
