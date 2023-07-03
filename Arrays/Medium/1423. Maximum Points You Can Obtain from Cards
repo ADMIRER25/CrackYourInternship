@@ -1,0 +1,39 @@
+T.C: O(N)
+S.C:O(1)
+--------------------------------
+class Solution {
+public:
+    int maxScore(vector<int>& cp, int k) // cp : cardPoints
+    {
+        int n = cp.size();
+
+       //*****every time we choose k cards , we are leaving n - k cards;*******
+
+       int sum = 0;
+       for(int i = 0 ; i < n; i++) 
+       {
+           sum += cp[i];
+           cp[i] = sum;
+       }
+
+       int total = cp[n-1];
+       int ans = 0;
+
+       // sliding window of size n - k
+       int i = 0;
+       int j = n - k - 1;
+       if(i + j + 1 <= 0) return total; // if we take all the elements then window size of resedual numbers are 0;
+
+       while(j < n)
+       {
+           int rest_sum;
+
+           if(i == 0) rest_sum = total - cp[j];
+           else rest_sum = total - (cp[j]-cp[i-1]);
+
+           ans = max(ans,rest_sum);
+           i++,j++;
+       }
+       return ans;
+    }
+};
