@@ -1,0 +1,20 @@
+T.C:O(nlogn)
+S.C:O(1)
+---------------------------------------------------------------------------
+long long findMinDiff(vector<long long> a, long long n, long long m)
+    {
+    //code
+    //n is number of chocolates packets ans m is the number of student
+        long long ans = INT_MAX;
+        sort(a.begin(),a.end());
+        
+        long long i = 0, j = m - 1;
+        while(j < n)
+        {
+            ans = min(ans,a[j]-a[i]);
+            i++,j++;
+        }
+        return ans;
+    }  
+
+WE HAVE ONE HARD TAGGED PROBLEM NAMED CANDY IN LEETCODE WE HAVE TO DO THAT ALSO 
