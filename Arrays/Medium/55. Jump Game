@@ -1,0 +1,20 @@
+T.C:O(N)
+S.C:O(1)
+--------------------------------
+class Solution {
+public:
+    bool canJump(vector<int>& nums)
+    {
+      //**dont be bother about choosing an index try to do from backward direction**
+      int ind = nums.size()-1; // it is possible to go the last index from the last index
+
+      for(int i = nums.size()-2; i >= 0; i--)
+      {
+          //from i index we can go max i+nums[i]
+          if(nums[i]+i >= ind) ind = i;
+      }
+
+      if(ind == 0) return true;
+      return false;
+    }
+};
