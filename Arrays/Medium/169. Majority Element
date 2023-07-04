@@ -1,0 +1,22 @@
+T.C:O(N)
+S.C:O(1)
+--------------------------------
+class Solution {
+public:
+    //moore voting algorithm 
+    // 7 7 5 5 7 1 | 5 7 | 5 5 7 7 | 5 5 5 5 
+    int majorityElement(vector<int>& nums)
+    {
+      int count = 0;
+      int major;
+      for(int num:nums)
+      {
+          //if count = 0 then take the current element as majority element
+          if(count == 0) major = num;
+
+          if(num == major) count++;
+          else count--;
+      } 
+      return major;
+    }
+};
