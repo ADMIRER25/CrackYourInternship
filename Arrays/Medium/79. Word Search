@@ -1,0 +1,47 @@
+T.C:O(r.c.3^l) // l:length of the word
+S.C:O(l)
+---------------------------------------------------
+class Solution {
+    //{{a}}, a
+
+    int r,c;
+    vector<vector<int>>directions = {{-1,0},{0,-1},{0,1},{1,0}};
+
+    bool check(vector<vector<char>>& board,int i, int j ,int idx,string word)
+    {
+        if(idx == word.length()) return true;
+        if(i < 0 || i >= r || j < 0 || j >= c || board[i][j] == '@') return false;
+
+        if(board[i][j] != word[idx]) return false;
+
+        int temp = board[i][j];
+        board[i][j] = '@';
+
+        //go to all four direction 
+        for(auto &dir:directions)
+        {
+            int i_ = i + dir[0];
+            int j_ = j + dir[1];
+            if(check(board,i_,j_,idx+1,word)) return true;
+        }
+
+        board[i][j] = temp;
+        return false;
+
+    }
+public:
+    bool exist(vector<vector<char>>& board, string word)
+    {
+        r = board.size();
+        c = board[0].size();
+
+        for(int i = 0; i< r; i++)
+        {
+            for(int j = 0; j < c;j++)
+            {
+              if(board[i][j] == word[0] && check(board,i,j,0,word)) return true;
+            }
+        }
+        return false;
+    }
+};
