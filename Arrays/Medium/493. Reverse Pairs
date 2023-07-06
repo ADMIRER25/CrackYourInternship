@@ -1,0 +1,73 @@
+T.c: O(nlogn + n)
+s.c:O(n)
+-------------------------------------------------
+class Solution {  
+    int count = 0;  
+    void merge(vector<int>&nums,int l, int mid,int h) {
+        int m = mid-l+1;
+        int n = h - mid;
+        int a[m],b[n];
+
+        //store the elements in a and b 
+        for(int i = l; i <= mid; i++)
+        {
+           a[i-l] = nums[i];
+        }
+        for(int i = mid+1; i <= h; i++)
+        {
+           b[i-mid-1] = nums[i];
+        }
+
+        int i = 0,j = 0, k = l;
+        while(i < m && j < n)
+        {
+            if(a[i] <= b[j])
+            {
+                nums[k++] = a[i++];
+            }
+            else 
+            {
+                nums[k++] = b[j++];
+            }
+        }
+        while(i < m)
+        {
+            nums[k++] = a[i++];
+        }
+        while(j < n)
+        {
+            nums[k++] = b[j++];
+        }
+    }    
+    void mergesort(vector<int>&nums,int l,int h)
+    {
+        if(l < h)
+        {
+            int mid = l + (h-l)/2;
+            mergesort(nums,l,mid);
+            mergesort(nums,mid+1,h);
+
+            int i = l, j = mid+1;
+            while(i <= mid && j <= h)
+            {
+                long long x = 2;
+                x *= nums[j];
+                if(nums[i] > x) j++;
+                else
+                {
+                    count += (j - (mid+1));
+                    i++;
+                }
+            }
+            if(j > h && i <= mid) count += ((mid-i+1)*(j-(mid+1)));
+            merge(nums,l,mid,h);
+        }
+    }
+public:
+    int reversePairs(vector<int>& nums)
+    {
+       int n = nums.size();
+       mergesort(nums,0,n-1);
+       return count;
+    }
+};
