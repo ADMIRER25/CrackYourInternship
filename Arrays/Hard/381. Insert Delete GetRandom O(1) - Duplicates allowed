@@ -1,0 +1,63 @@
+class RandomizedCollection {
+    //for insertion:
+    // true : if the item is not present 
+    //false : if the item is present
+
+    //for removal:
+     // true : if the item is present 
+    //false : if the item is not present
+    
+public:
+    vector<pair<int,int>>v;// val,koto number val (0,1,2,....)
+    unordered_map<int,vector<int>>mp; // val, <indexes>
+
+    RandomizedCollection() 
+    {}
+    
+    bool insert(int val) 
+    {
+        bool ans = mp.find(val) == mp.end();
+
+        mp[val].push_back(v.size()); //val, index 
+        
+        v.push_back({val,mp[val].size()-1}); //val,map er vector e koto number index e oi val ta achhe 
+
+        return ans;
+
+    }
+    
+    bool remove(int val) 
+    {
+        bool ans = mp.find(val) != mp.end();
+
+        if(ans)
+        {
+            auto last = v.back(); // by which we will substitute the val 
+
+            //update the v , index of the val which will get popped is always from the back of the mp[val].back()
+            //mp[val] ete je vector ache tar sob cheye jeta seser index sekhan theke pop korbo 
+            v[mp[val].back()] = last;
+            v.pop_back();
+
+            //update the map //last.first holo map er kon val te update korchi ar last.second holo map er val er je vactor ache tar koto number index e update korchi 
+            mp[last.first][last.second] = mp[val].back();
+
+            mp[val].pop_back();
+            if(mp[val].empty()) mp.erase(val);   
+        }
+        return ans;
+    }
+    
+    int getRandom()
+    {
+      return v[rand()%v.size()].first;
+    }
+};
+
+/**
+ * Your RandomizedCollection object will be instantiated and called as such:
+ * RandomizedCollection* obj = new RandomizedCollection();
+ * bool param_1 = obj->insert(val);
+ * bool param_2 = obj->remove(val);
+ * int param_3 = obj->getRandom();
+ */
