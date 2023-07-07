@@ -1,0 +1,30 @@
+T.C:O(N)
+S.C:O(1)
+-------------------------
+class Solution {
+public:
+  int arrange(int ptr,vector<int>&nums,int val,int count)
+  {
+    int curr = ptr;
+    while(count--)
+    {
+      nums[curr++] = val;
+    }
+    return curr;
+  }
+    void sortColors(vector<int>& nums) 
+    {
+        int red_count = 0;
+        int white_count = 0;
+        int blue_count = 0;
+        for(int i : nums)
+        {
+          if(i == 0) red_count++;
+          else if(i == 1) white_count++;
+          else blue_count++;
+        }
+       int eor = arrange(0,nums,0,red_count);
+       int eow = arrange(eor,nums,1,white_count);
+       int eob = arrange(eow,nums,2,blue_count);
+    }
+};
