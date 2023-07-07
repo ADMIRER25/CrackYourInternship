@@ -1,0 +1,20 @@
+T.C:O(N)
+S.C:O(1)
+----------------------
+class Solution {
+public:
+    int removeDuplicates(vector<int>&nums)
+    {
+        int size = nums.size();
+      for(int i = 0; i < size-1; i++)  
+      {
+          if(nums[i] != nums[i+1])
+          {
+            nums.push_back(nums[i]);
+          }
+      }
+     nums.push_back(nums[size-1]);
+     nums.erase(nums.begin(),nums.begin() + size);
+     return nums.size();
+    }
+};
