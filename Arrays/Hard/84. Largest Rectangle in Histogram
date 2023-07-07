@@ -1,0 +1,81 @@
+T.C:O(N)
+S.C:O(N)
+----------------------------------------------------
+in one pass
+------------------
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& nums)
+    {
+       stack<int>st; // which will store the index 
+       int n = nums.size();
+       int area = 0;
+       for(int i = 0; i <= n; i++)
+       {
+           while(!st.empty() && (i == n || nums[st.top()] > nums[i]))
+           {
+               int right_smaller = i;
+               int height = nums[st.top()];
+               st.pop();
+               int left_smaller;
+               if(st.empty()) left_smaller = -1;
+               else left_smaller = st.top();
+               area = max(area,(right_smaller-left_smaller-1)*height);
+           }
+           st.push(i);
+       }
+       return area;
+    }
+};
+----------------------------------------------------------------------------------
+in two pass 
+-----------------
+class Solution {
+public:
+    int largestRectangleArea(vector<int>& heights)
+    {
+        int n = heights.size();
+        int left_smaller[n];
+        int right_smaller[n];
+        int ans = 0;
+        
+        stack<int>st;
+
+        //for finding the left smaller
+        for(int i = 0; i < n; i++)
+        {
+             while(!st.empty() && heights[st.top()] >= heights[i])
+             {
+                 st.pop();
+             }
+             if(st.empty()) left_smaller[i] = -1;
+             else
+             {
+                left_smaller[i] = st.top();
+             }
+             st.push(i);
+        }
+        while(st.size()) st.pop();
+
+        //for finding the right smaller
+        for(int i = n-1; i >= 0; i--)
+        {
+             while(!st.empty() && heights[st.top()] >= heights[i])
+             {
+                 st.pop();
+             }
+             if(st.empty()) right_smaller[i] = n;
+             else
+             {
+                right_smaller[i] = st.top();
+             }
+             st.push(i);
+        }
+        for(int i = 0; i < n; i++)
+        {
+            int area = (right_smaller[i] - left_smaller[i]-1)*heights[i];
+            ans = max(ans,area);
+        }
+        return ans;
+    }
+};
