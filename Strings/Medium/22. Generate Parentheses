@@ -1,0 +1,28 @@
+class Solution {
+    void helper(vector<string>&ans,int k,int c1,int c2,string temp)
+    {
+        if(k < 0) return;
+        if(k == 0 && c1 == 0 && c2 == 0) 
+        {
+            ans.push_back(temp);
+            return;
+        }
+
+        temp += "(";
+        //take left part ans mark k = k + 1;
+        if(c1 > 0) helper(ans,k+1,c1-1,c2,temp);
+        
+        temp.pop_back();
+        temp += ")";
+        //take right part and mark k = k - 1;
+        if(c2 > 0) helper(ans,k-1,c1,c2-1,temp);
+    }
+public:
+    vector<string> generateParenthesis(int n) {
+        vector<string>ans;
+        int c1 = n, c2 = n;
+        string temp = "";
+        helper(ans,0,n,n,temp);
+        return ans;
+    }
+};
