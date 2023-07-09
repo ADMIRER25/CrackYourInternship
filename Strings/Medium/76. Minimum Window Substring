@@ -1,0 +1,50 @@
+t.c:O(n+m)
+s.c:o(n)
+---------------------------------------------------------------------------------------------
+class Solution {
+public:
+    string minWindow(string s, string t) 
+    {
+        unordered_map<char,int>mp;//<<t[i],freq>>
+
+        //store the t in the map 
+        for(char ch : t) mp[ch]++;
+
+        int charRequired = t.length();
+        int startInd = -1;
+        int windowLength = INT_MAX;
+        int i = 0,j = 0;
+
+        while(j < s.length())
+        {
+            if(mp[s[j]] > 0) //we need that char
+            {
+               charRequired--;
+            }
+            mp[s[j]]--;
+            if(charRequired == 0) //we have all the character that inside our window
+            {
+                //we will try to squeze the window
+                while(charRequired == 0)
+                {
+                    //if we are able to find a smaller window length then we will update the startInd and windowlength
+                    if(j-i+1 < windowLength)
+                    {
+                        windowLength = j-i+1;
+                        startInd = i;
+                    }
+                    mp[s[i]]++;
+
+                    if(mp[s[i]] > 0) // now we dont have all the char inside our window check whether we need that char or not
+                    {
+                        charRequired++;
+                    }
+                    i++;
+                }
+            }
+            j++;
+        }
+        if(startInd == -1) return "";
+        return s.substr(startInd,windowLength);
+    }
+};
