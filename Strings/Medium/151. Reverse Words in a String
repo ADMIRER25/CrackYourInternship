@@ -1,0 +1,35 @@
+class Solution {
+public:
+    string reverseWords(string s) 
+    {
+        //first reverse the whole string 
+        reverse(s.begin(),s.end());
+
+        int i = 0,l = 0,r = 0;
+        //give i th char to r and increse i and r, whenever the char in the ith place will be will be a space then reverse the portion from l to r-1,then l = r and then r++
+
+        while(i < s.length())
+        {
+            while(i < s.length() && s[i] != ' ')
+            {
+                s[r++] = s[i++];
+            }
+            if(l < r)
+            {
+                reverse(s.begin()+l,s.begin()+r);
+                //r will take a space here 
+                s[r++] = ' ';
+                 // we can access any index of string as well as the index which is out of bound but whenever we will print the string if we change somthing in out of bound index then we can't see any change 
+                /*string s;
+                s = "subha";
+                s[5] = ' ';
+                s[6] = 'a';
+                cout << s; output : subha*/
+                l = r;
+            }
+            i++;    
+        }
+       
+        return s.substr(0,r-1);
+    }
+};
