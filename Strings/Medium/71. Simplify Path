@@ -1,0 +1,76 @@
+class Solution {
+public:
+    string simplifyPath(string path) {
+        
+        stack<string> st;
+        string res;
+        
+        for(int i = 0;  i<path.size(); ++i)
+        {
+            if(path[i] == '/')    
+                continue;
+            string temp;
+			// iterate till we doesn't traverse the whole string and doesn't encounter the last /
+            while(i < path.size() && path[i] != '/')
+            {
+				// add path to temp string
+                temp += path[i];
+                ++i;
+            }
+            if(temp == ".")
+                continue;
+			// pop the top element from stack if exists
+            else if(temp == "..")
+            {
+                if(!st.empty())
+                    st.pop();
+            }
+            else
+			// push the directory file name to stack
+                st.push(temp);
+        }
+        
+		// adding all the stack elements to res
+        while(!st.empty())
+        {
+            res = "/" + st.top() + res;
+            st.pop();
+        }
+        
+		// if no directory or file is present
+        if(res.size() == 0)
+            return "/";
+        
+        return res;
+    }
+};
+--------------------------------------------------------------------------
+class Solution {
+        // (. means current directory),(.. means previous directory)
+    //example : /a/./b/..//../c/ , after tokenization: a, . , b , .. , "" , .. , c
+    //output : /c
+public:
+    string simplifyPath(string path) 
+    {
+       //using stack and tokenization
+       stringstream ss(path);
+       string token = "",ans = "";
+       stack<string>st;
+
+       while(getline(ss,token,'/'))
+       {
+           if(token == "." || token == "")continue;
+           else if(token != "..") st.push(token);
+           else if(st.size()) st.pop();   
+       }
+
+       if(st.empty()) return "/";
+
+       while(st.size())
+       {
+           ans = "/" + st.top() + ans;
+           st.pop();
+       }
+       return ans;
+    }
+};
