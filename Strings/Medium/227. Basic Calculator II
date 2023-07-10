@@ -1,0 +1,86 @@
+class Solution {
+    int presedence(char ch)
+    {
+        if(ch == '/' || ch == '*') return 2;
+        else return 1;
+    }
+   string Infix_To_Postfix(string &s)
+    {
+        stack<char>st;
+        string temp = "";
+        for(char &ch :s)
+        {
+           if(ch == ' ') continue;
+           if(ch >= '0' && ch <= '9') temp += ch;
+           else
+           {
+               temp += ' ';
+               if(st.empty()) st.push(ch);
+               else 
+               {
+                   while(st.size() && presedence(ch) <= presedence(st.top()))
+                   {
+                       temp += st.top();
+                       temp += ' ';
+                       st.pop();
+                   }
+                   st.push(ch);
+               }
+           }
+        }
+        while(st.size())
+        {
+            temp += ' ';
+            temp += st.top();
+            st.pop();
+        }
+        temp += ' ';
+        return temp;
+    }
+    int evaluate(string &s)
+    {
+        stack<int>st;
+        //firat we will count the char
+        string temp = "";
+        for(char ch : s)
+        {
+            if(ch != ' ')
+            {
+                temp += ch;
+            }
+            else 
+            {
+                if(temp == "+" || temp == "-"|| temp == "/"|| temp == "*")
+                {
+                    int op1,op2;
+                    op2 = st.top();
+                    st.pop();
+                    op1 = st.top();
+                    st.pop();
+                    int x;
+                    if(temp == "+") st.push(op1+op2);
+                    else if(temp == "-")st.push(op1-op2);
+                    else if(temp == "/")st.push(op1/op2);
+                    else if(temp == "*")st.push(op1*op2);
+                    temp = "";
+                }
+                else 
+                {
+                    int num = stoi(temp);
+                    //cout << num << endl;
+                    temp = "";
+                    st.push(num);
+                }
+            }
+        }  
+        return st.top();
+    }
+public:
+    int calculate(string s) 
+    {
+      string postfix = Infix_To_Postfix(s);
+      //cout << postfix;
+      int val = evaluate(postfix);
+      return val;
+    }
+};
