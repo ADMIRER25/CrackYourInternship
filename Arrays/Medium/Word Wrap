@@ -1,0 +1,44 @@
+Expected Time Complexity: O(n2)
+Expected Space Complexity: O(n)
+---------------------------------------
+class Solution {
+    int dp[502][2002];
+    int helper(vector<int>&nums,int ind ,int remaining_places, int &k,int dp[][2002])
+    {
+        if(ind == nums.size()) return 0; //ind == nums.size() will occur if the prevous ind is ind - 1 and ind-1 stay in which line that line dont have any extra space so return 0
+        
+        if(dp[ind][remaining_places] != -1) return dp[ind][remaining_places];
+        
+        //i.e the current word length is higher than the remaining_places so word can't fit inside the same line
+        //so we have to go to the next line
+        int cost;
+        if(nums[ind] > remaining_places) 
+        {
+            cost = (remaining_places+1)*(remaining_places+1) + helper(nums,ind+1,k-nums[ind]-1,k,dp);
+        }
+        else 
+        {
+            //we can fill the word in the same line orr can go in the next line 
+            int choice1 = helper(nums,ind+1,remaining_places-nums[ind]-1,k,dp);
+            int choice2 = (remaining_places+1)*(remaining_places+1) + helper(nums,ind+1,k-nums[ind]-1,k,dp);
+            cost = min(choice1,choice2);
+        }
+        return dp[ind][remaining_places] = cost;
+    }
+public:
+    int solveWordWrap(vector<int>nums, int k) 
+    { 
+        // so we have two choices we can place the word in the same line or can place the word in the next line 
+        //but one case is that if we can't place the word in the same line then we have to place the word in the next line
+        
+        //whenever we place the word in the next line first we have to calculate the cost for the current line then we can calculate the cost for the next line 
+        //if we place the word in the same line then no cost needeed because we are not going to the next line 
+        
+        //for the first case we have to place the word in the 1st 1st line 
+        memset(dp,-1,sizeof(dp));
+        
+        return helper(nums,1,k-nums[0]-1,k,dp); // -1 bcz we need one space for the separation of word 
+        
+        
+    } 
+};
