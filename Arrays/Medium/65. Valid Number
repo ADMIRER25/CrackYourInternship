@@ -1,0 +1,48 @@
+tc:O(n)
+s.c:o(1)
+----------------------------
+class Solution {
+    /*
+    digit : must present digit 
+    plus/minus: --6,-+3(con't have more than 1),6+(can't place at the last),6+6(can't place in between) previous char of +/- have to be e
+    e/E: e3,3e(can't present in first or last),ee(more than once not valid)
+    dot: (..)(more than once), (e.)(dot after e can't),(.)no digit is present before or after it
+    */
+public:
+    bool isNumber(string s) {
+        bool digitseen = false,dotseen = false,eseen = false;
+
+        for(int i = 0; i < s.size(); i++)
+        {
+            char ch = s[i];
+            //digit 
+            if(ch >= '0' && ch <= '9') digitseen = true;
+
+            //minus/plus
+            else if(ch == '+' || ch == '-')
+            {
+                if(i > 0 && (s[i-1] != 'e' && s[i-1] != 'E')) return false; //if before +/- , e/E is not present then invalid
+                if(i == s.size()-1) return false; //it is the last char 
+                if(i != s.size() -1 && (s[i+1] == 'e' || s[i+1] == 'E'||s[i+1] == '+'||s[i+1] == '-')) return false; //if after +/- , e or E or + or - present then invalid dot can present 
+            }
+            //e/E
+           else if(ch == 'e' || ch == 'E')
+            {
+                if(i == 0 || i == s.size()-1) return false; //if it the 1st or last char
+                if(eseen) return false;//if e/E is present more than once 
+                eseen = true;
+            }
+            //dot
+            else if(ch == '.')
+            {
+                if(dotseen) return false;//if dotseen is present more than once
+                if(eseen) return false; //if there is e before dot
+                if(i == s.size()-1 && !digitseen) return false; //if it is the only dot 
+                if(i != s.size()-1 && !digitseen && (s[i+1] == 'e'||s[i+1] == 'E')) return false; //if any digit is seen before dor and then e/E or any digit present then true (5.e1) but if no digit is seen before dot but after dot 1st char is e/E then flase(.e5)
+                dotseen = true;
+            }
+            else return false;
+        }
+        return true;
+    }
+};
