@@ -1,0 +1,75 @@
+class Solution {
+    string ones[20] = {"","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve" ,"Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"};
+
+    string twos[10] = {"","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"};
+
+    string two(int num)
+    {
+        if(num < 20) return ones[num];
+        else
+        {
+            int twoo = num/10;
+            num = num % 10;
+            if(twoo != 0 && num != 0) return twos[twoo] + " " + ones[num];
+            else if(twoo != 0) return twos[twoo];
+            else return ones[num];     
+        } 
+    }
+    string three(int num)
+    {
+        if(num == 0) return ""; //can avoid
+
+        int hundred = num / 100;
+        num = num % 100;
+        string temp = "";
+        if(hundred != 0 && num != 0) 
+        {
+            temp += ones[hundred] + " Hundred " + two(num);
+        }
+        else if(hundred != 0)
+        {
+            temp += ones[hundred] + " Hundred";
+        }
+        else
+        {
+            temp += two(num);
+        }
+        return temp;
+    }
+public:
+    //if carefully observe then we can see than if we divide the num into chunk of three then we got the hundred parts
+    string numberToWords(int num) {
+        if(num == 0) return "Zero";
+
+        string ans = "";
+        int billion = num /1000000000;
+        num = num % 1000000000;
+
+        int million = num/1000000;
+        num = num % 1000000;
+
+        int thousand = num/1000;
+        num = num % 1000;
+
+        if(billion != 0)
+        {
+            ans += three(billion) + " Billion";
+        }
+        if(million != 0)
+        {
+            if(ans.length()!=0) ans += " ";
+            ans += three(million) + " Million";
+        }
+        if(thousand != 0)
+        {
+            if(ans.length()!=0) ans += " ";
+            ans += three(thousand) + " Thousand";
+        }
+        if(num != 0)
+        {
+            if(ans.length()!=0) ans += " ";
+            ans += three(num);
+        }
+        return ans;
+    }
+};
