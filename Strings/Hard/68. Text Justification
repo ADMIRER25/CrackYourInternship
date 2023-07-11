@@ -105,7 +105,7 @@ public:
     {
        vector<string>ans;
        int i = 0, j = 0;
-       while(j < words.size())
+       while(i < words.size())
        {
            int remaining_spaces = justify(words,maxWidth,i); //how many words can be placed inside one string of length maxWidth and how many remaining spaces we have to distribute
            string temp = distribute_spaces(words,remaining_spaces,j,i);
