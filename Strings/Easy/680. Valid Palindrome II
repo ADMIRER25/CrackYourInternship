@@ -18,3 +18,29 @@ public:
         return helper(i,j,s,defect);
     }
 };
+--------------------------------------------------------------------------------------
+class Solution {
+public:
+    bool validPalindrome(string s)
+    {
+        int i = 0, j = s.length()-1;
+
+        while(i < j)
+        {
+            if(s[i] == s[j]) i++,j--;
+            else 
+            {
+                string rev_s1 = s.substr(i+1,j-i);
+                string s1 = rev_s1;
+                reverse(rev_s1.begin(),rev_s1.end());
+
+                string rev_s2 = s.substr(i,j-i);
+                string s2 = rev_s2;
+                reverse(rev_s2.begin(),rev_s2.end());
+                
+                return (s1 == rev_s1 || s2 == rev_s2);
+            }
+        }
+        return true;
+    }
+};
