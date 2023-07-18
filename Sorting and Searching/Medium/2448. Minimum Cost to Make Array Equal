@@ -1,0 +1,39 @@
+class Solution {
+public:
+    long long cost_calculate(vector<int>& nums, vector<int>& cost,int x)
+    {
+        long long ans = 0;
+        for(int i = 0; i < nums.size();i++)
+        {
+            ans += (1L* abs(x-nums[i])*cost[i]);
+        }
+        return ans;
+    }
+    //using binary search concept
+    long long minCost(vector<int>& nums, vector<int>& c)
+    {
+        //find high and low 
+        int h = *max_element(nums.begin(),nums.end());
+        int l = *min_element(nums.begin(),nums.end());
+
+        long long cost;
+        //find the optimal mid 
+        while(l < h)
+        {
+            int mid = l + (h - l)/2;
+
+            //find the cost in the mid 
+            cost = cost_calculate(nums,c,mid);
+
+            //whether go to right or left we can judge using mid + 1;
+            
+            long long cost_1 = cost_calculate(nums,c,mid+1);
+
+            if(cost < cost_1) //we have to go towards min cost so h = mid - 1;
+                h = mid;
+            else l = mid + 1;
+        }
+        cost = cost_calculate(nums,c,l);
+        return cost;
+    }
+};
