@@ -1,0 +1,17 @@
+class Solution{
+public:
+    void inorder(Node* root,int &count,int &l,int &h)
+    {
+        if(root==NULL) return;
+        inorder(root->left,count,l,h);
+        if(root->data>=l && root->data<=h) count++;
+        inorder(root->right,count,l,h);
+    }
+    int getCount(Node *root, int l, int h)
+    {
+      // your code goes here
+      int count=0;
+      inorder(root,count,l,h);
+      return count;
+    }
+};
