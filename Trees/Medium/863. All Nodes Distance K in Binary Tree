@@ -1,0 +1,49 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+    void parent(TreeNode *root,unordered_map<TreeNode*,TreeNode*>&mp)
+    {
+        if(root->left)
+        {
+            mp[root->left] = root;
+            parent(root->left,mp);
+        }
+        if(root->right)
+        {
+            mp[root->right] = root;
+            parent(root->right,mp);
+        }
+    }
+    void k_distance_nodes(unordered_map<TreeNode*,TreeNode*>&mp,TreeNode* node,int k,vector<int>&ans, unordered_set<TreeNode*>&s)
+    {
+        if(s.find(node) != s.end()) return;
+        s.insert(node);
+        if(k == 0) 
+        {
+            ans.push_back(node->val);
+            return;
+        }
+        if(node->left) k_distance_nodes(mp,node->left,k-1,ans,s);
+        if(node->right) k_distance_nodes(mp,node->right,k-1,ans,s);
+        if(mp.find(node) != mp.end())k_distance_nodes(mp,mp.find(node)->second,k-1,ans,s);
+    }
+public:
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) 
+    {
+       //by this we can visit upward direction through parent
+       //we use dfs traversal to make this while we are goinf downwards we are marking the parents inside a map
+       unordered_map<TreeNode*,TreeNode*>mp;
+       parent(root,mp);
+       vector<int>ans;
+       unordered_set<TreeNode*>s;
+       k_distance_nodes(mp,target,k,ans,s);
+       return ans;
+    }
+};
