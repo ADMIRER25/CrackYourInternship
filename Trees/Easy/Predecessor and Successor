@@ -1,0 +1,36 @@
+class Solution
+{
+    public:
+    Node* findSucc(Node* root,int key){
+        Node* sucessor=NULL;
+        while(root){
+            if(root->key>key){
+                sucessor=root;
+                root=root->left;
+            }
+            else{
+                root=root->right;
+            }
+        }
+        return sucessor;
+    }
+    Node* findPred(Node* root,int key){
+        Node* predecessor=NULL;
+        while(root){
+            if(root->key<key){
+                predecessor=root;
+                root=root->right;
+            }
+            else{
+                root=root->left;
+            }
+        }
+        return predecessor;
+    }
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+    {
+       suc=findSucc(root,key);
+        pre=findPred(root,key);
+        
+    }
+};
