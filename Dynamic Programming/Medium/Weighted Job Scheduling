@@ -1,0 +1,27 @@
+class Solution 
+{
+    public:
+   static bool comparison(Job a,Job b){
+        return (a.profit>b.profit);
+    }
+    //Function to find the maximum profit and the number of jobs done.
+    vector<int> JobScheduling(Job arr[], int n) 
+    { 
+     sort(arr,arr+n,comparison);
+     int sum=0;
+     vector<bool>slot(n,false);
+      for(int i=0;i<n;i++){
+          for(int j=min(arr[i].dead,n)-1;j>=0;j--){
+              if(!slot[j]){
+                  sum+=arr[i].profit;slot[j]=true;break;
+              }
+          }
+      }
+      int c=0;
+      for(int i=0;i<n;i++){
+          if(slot[i]) c++;
+      }
+     return {c,sum};
+    
+    } 
+};
