@@ -1,0 +1,19 @@
+class Solution:
+    
+    #Function to return a list containing the DFS traversal of the graph.
+    def rdfs(self,node,V,adj,ans,visited):
+        visited.add(node)
+        ans.append(node)
+        for no in adj[node]:
+            if no not in visited:
+                self.rdfs(no,V,adj,ans,visited)
+        
+        
+    def dfsOfGraph(self, V, adj):
+        # code here
+        start=0
+        visited=set()
+        ans=[]
+        self.rdfs(start,V,adj,ans,visited)
+        return ans
+
