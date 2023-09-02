@@ -1,0 +1,39 @@
+class Solution {
+    void dfs(int hid,vector<int>adj[],vector<int>&vis,vector<int>& info,int path_sum,int &ans)
+    {
+        vis[hid] = 1;
+
+        ans = max(ans,path_sum+info[hid]);
+
+        for(auto node : adj[hid])
+        {
+            if(!vis[node]) dfs(node,adj,vis,info,path_sum+info[hid],ans);
+        }
+    }
+public:
+    int numOfMinutes(int n, int hid, vector<int>& m, vector<int>& info)
+    {
+        if(n == 1) return info[0];
+
+        vector<int>adj[n];
+        //making the adj list 
+        for(int i = 0; i < n;i++)
+        {
+            if(m[i] == -1) continue;
+
+            adj[m[i]].push_back(i);
+        }
+
+        for(int i = 0; i < n; i++)
+        {
+            for(auto x : adj[i]) cout << x << " ";
+            cout << endl;
+        }
+
+        vector<int>vis(n,0);
+
+        int ans = 0,path_sum = 0;
+        dfs(hid,adj,vis,info,path_sum,ans);
+        return ans;
+    }
+};
