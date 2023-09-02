@@ -1,0 +1,35 @@
+class Solution{
+    public:
+    map<pair<int,int>,char> mp;
+    void findPath(int row,int col,int n,string path,vector<vector<bool>> &vis,
+    vector<vector<int>> &grid,vector<string> &res) {
+        if(row == n-1 && col == n-1) {
+            res.push_back(path);
+            return;
+        }
+        if(row < 0 || row >= n || col < 0 || col >= n || vis[row][col] || !grid[row][col])
+            return;
+        vis[row][col] = true;
+        int rowTrav[] = {1,0,-1,0};
+        int colTrav[] = {0,-1,0,1};
+        for(int i=0;i<4;i++) {
+            int r = row + rowTrav[i];
+            int c = col + colTrav[i];
+            findPath(r,c,n,path+mp[{rowTrav[i],colTrav[i]}],vis,grid,res);
+        }
+        vis[row][col] = false;
+    }
+    
+    vector<string> findPath(vector<vector<int>> &grid, int n) {
+        // Your code goes here
+        if(!grid[0][0] || !grid[n-1][n-1]) return {"-1"};
+        vector<vector<bool>> vis(n,vector<bool> (n,false));
+        vector<string> res;
+        mp[{1,0}] = 'D';
+        mp[{-1,0}] = 'U';
+        mp[{0,1}] = 'R';
+        mp[{0,-1}] = 'L';
+        findPath(0,0,n,"",vis,grid,res);
+        return res;
+    }
+};
