@@ -1,0 +1,32 @@
+int minStepToReachTarget(vector<int>&KnightPos,vector<int>&TargetPos,int N)
+	{
+	    // Code here
+	    int dr[] = {1,-1,1,-1,2,2,-2,-2} , dc[] = {2,2,-2,-2,1,-1,1,-1};
+	    queue<pair<int,pair<int,int>>> q;
+	    vector<vector<int>> vis(N+1,vector<int>(N+1,0));
+	    vis[KnightPos[0]][KnightPos[1]] = 1;
+	    q.push({0,{KnightPos[0],KnightPos[1]}});
+	    while(!q.empty())
+	    {
+	        auto top = q.front();
+	        q.pop();
+	        int row = top.second.first;
+	        int col = top.second.second;
+	        int steps = top.first;
+	        if(row == TargetPos[0] && col == TargetPos[1])
+	        {
+	            return steps;
+	        }
+	        for(int i=0;i<8;i++)
+	        {
+	            int nrow = row + dr[i];
+	            int ncol = col + dc[i];
+	            if(nrow>=1 && nrow<=N && ncol>=1 && ncol<=N && !vis[nrow][ncol])
+	            {
+	                vis[nrow][ncol] = 1;
+	                q.push({steps+1,{nrow,ncol}});
+	            }
+	        }
+	    }
+	    return -1;
+	}
