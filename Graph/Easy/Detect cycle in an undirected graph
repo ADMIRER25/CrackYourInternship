@@ -1,0 +1,35 @@
+Java DFS Solution
+
+class Solution {
+    // Function to detect cycle in an undirected graph.
+    boolean flag ;
+    public boolean isCycle(int v, ArrayList<ArrayList<Integer>> adj) {
+        // Code here
+        flag = false;
+        int[] vis = new int[v];
+        
+        for(int i =0;i<adj.size();i++){
+            if(vis[i] == 0){
+                dfs(adj,vis,i,i,i);
+                if(flag == true) return true;
+            }
+            Arrays.fill(vis,0);
+        }
+        return false;
+    }
+    
+    public void dfs(ArrayList<ArrayList<Integer>> adj, int[] vis, int i,int src, int prev){
+        
+        if(flag == true) return;
+        vis[i] = 1;
+        
+        for(int val:adj.get(i)){
+            if(vis[val] == 1 && val == src && val != prev){
+                flag = true;
+                return;
+            }else if(vis[val] == 0){
+                dfs(adj,vis,val,src,i);
+            }
+        }
+    }
+}
