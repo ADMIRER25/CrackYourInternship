@@ -1,0 +1,48 @@
+class Solution {
+public:
+// one observation is that if any character has the frequency > ceil(length of the string/2) then it is not possible to put it alternatively 
+    string reorganizeString(string s) 
+    {
+        //calculating the frequency
+        vector<int>charCount(26,0);
+        for(char c : s) charCount[c -'a']++;
+
+        //calculation the max frequency so that we can place the char with maxFrequency at 1st then we have to place the other char bcz if we place the char which has the maxFreq then later there would be a chance that after finishing the even positions it will place to the odd position and a odd position will be next to a even postion so it would not be valid ,to overcome this situation we first place the char with maxFreq then we are placing the other char by that we can ensure the alternating position of the char s
+        int maxFreq = 0;
+        char ch;
+        
+        for(int i = 0; i < 26; i++)
+        {
+            if(maxFreq < charCount[i])
+            {
+                maxFreq = charCount[i];
+                ch = char('a'+ i);
+            }
+        }
+
+        if(maxFreq > (s.length()+1)/2) return "";
+
+        string ans = s;
+        int ind = 0;
+        //placing the maxfreq char 
+        while(maxFreq--)
+        {
+            ans[ind] = ch;
+            ind += 2;
+            charCount[ch - 'a']--;  
+        }
+        //placing the other char s 
+        for(int i = 0; i < 26; i++)
+        {
+            while(charCount[i] > 0)
+            {
+                if(ind >= s.length()) ind = 1;
+
+                ans[ind] = (char)('a'+ i);
+                ind += 2;
+                charCount[i]--;
+            }
+        }
+      return ans;
+    }
+};
