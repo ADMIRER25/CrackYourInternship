@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int bit_count(int num)
+    {
+        int bit = 0;
+        while(num > 0)
+        {
+          if(num & 1 != 0)bit++;
+          num = num >> 1;
+        }
+        return bit;
+    }
+    vector<int> countBits(int n) 
+    {
+        vector<int>ans;
+        for(int i = 0; i <= n; i++)
+        {
+            int bitcount = bit_count(i);
+            ans.push_back(bitcount);
+        }
+        return ans;
+    }
+};
